@@ -61,7 +61,7 @@ const server = http.createServer((req, res) => {
             </html>
         `);
     } else if (req.url === '/naturalaminities.jpg') {
-        const imgPath = path.join(__codeupnt, 'naturalaminities.jpg');
+        const imgPath = path.join(__dirname, 'naturalaminities.jpg');
         fs.readFile(imgPath, (err, data) => {
             if (err) {
                 res.writeHead(404);
