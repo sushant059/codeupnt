@@ -50,10 +50,10 @@ const server = http.createServer((req, res) => {
             </head>
             <body>
                 <div class="container">
-                    <h1>Welcome to Litchfield National Park</h1>
+                    <h1>Welcome to Litchfield Park</h1>
                     <img src="/naturalaminities.jpg" alt="Litchfield Natural Amenities">
                     <p>
-                        Discover the stunning natural beauty of Litchfield National Park, just a short drive from Darwin.
+                        Discover the stunning  beauty of Litchfield National Park, just a short drive from Darwin.
                         With waterfalls, rock pools, and unique termite mounds, this is a perfect destination for adventure and relaxation.
                     </p>
                 </div>
@@ -61,7 +61,7 @@ const server = http.createServer((req, res) => {
             </html>
         `);
     } else if (req.url === '/naturalaminities.jpg') {
-        const imgPath = path.join('naturalaminities.jpg');
+        const imgPath = path.join(__codeupnt, 'naturalaminities.jpg');
         fs.readFile(imgPath, (err, data) => {
             if (err) {
                 res.writeHead(404);
