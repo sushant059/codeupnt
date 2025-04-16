@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { useColorScheme } from 'react-native';
+import { useThemeContext } from '@/context/ThemeProvider';
 import { Colors } from '@/constants/Colors';
 
 const createGlobalStyles = (colorScheme) =>
@@ -10,13 +10,18 @@ const createGlobalStyles = (colorScheme) =>
             backgroundColor: Colors[colorScheme].background,
             justifyContent: 'flex-start',
         },
+        subPageContainer: {
+            flex: 1,
+            backgroundColor: Colors[colorScheme].background,
+            justifyContent: 'flex-start',
+        },
         inputTextBox: {
             paddingVertical: 25,
             paddingHorizontal: 30,
             borderRadius: 16,
             borderWidth: 2,
             borderColor: Colors[colorScheme].border,
-            backgroundColor: Colors[colorScheme].background,
+            backgroundColor: Colors[colorScheme].card,
             fontSize: 18,
             color: Colors[colorScheme].text,
         },
@@ -34,10 +39,11 @@ const createGlobalStyles = (colorScheme) =>
             gap: 4,
         },
         buttonCard: {
-            backgroundColor: '#f1f1f1',
+            backgroundColor: Colors[colorScheme].card,
             borderRadius: 12,
             padding: 16,
             marginHorizontal: 20,
+            marginBottom: 12,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -45,7 +51,7 @@ const createGlobalStyles = (colorScheme) =>
         buttonLeft: {
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#f1f1f1',
+            backgroundColor: Colors[colorScheme].card,
             gap: 8,
         },
         overlay: {
@@ -56,7 +62,7 @@ const createGlobalStyles = (colorScheme) =>
         },
         overlayContent: {
             width: '80%',
-            backgroundColor: '#fff',
+            backgroundColor: Colors[colorScheme].card,
             padding: 20,
             borderRadius: 12,
             alignItems: 'center',
@@ -74,6 +80,6 @@ const createGlobalStyles = (colorScheme) =>
     });
 
 export const useGlobalStyles = () => {
-    const scheme = useColorScheme() ?? 'light';
-    return createGlobalStyles(scheme);
+    const { theme } = useThemeContext();
+    return createGlobalStyles(theme);
 };

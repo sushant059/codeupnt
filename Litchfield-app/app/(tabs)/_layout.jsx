@@ -1,14 +1,14 @@
-import { Tabs, usePathname } from 'expo-router';
+import { Tabs, usePathname, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Text, View, Pressable } from 'react-native';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useThemeContext } from '@/context/ThemeProvider';
 import { useFonts } from 'expo-font';
 import { SearchModal } from '@/components/search';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { theme: colorScheme } = useThemeContext();
   const pathname = usePathname();
   const currentScreen = pathname.split('/').pop();
   const titleMap = {
@@ -23,6 +23,7 @@ export default function TabLayout() {
   });
 
   const [showSearch, setShowSearch] = useState(false);
+  const router = useRouter();
 
   if (!fontsLoaded) {
     return <View style={{ flex: 1, backgroundColor: 'black' }} />;
@@ -34,26 +35,28 @@ export default function TabLayout() {
         <Text style={{
           fontSize: 38,
           fontFamily: 'Lobster-Regular',
-          color: Colors[colorScheme ?? 'light'].text,
+          color: Colors[colorScheme].text,
         }}>{pageTitle}</Text>
         <View style={{ flexDirection: 'row', marginLeft: 'auto', gap: 10 }}>
           <Pressable onPress={() => setShowSearch(true)}>
-            <IconSymbol name="magnifyingglass" size={28} color={Colors[colorScheme ?? 'light'].icon} />
+            <IconSymbol name="magnifyingglass" size={28} color={Colors[colorScheme].icon} />
           </Pressable>
-          <IconSymbol name="cart" size={28} color={Colors[colorScheme ?? 'light'].icon} />
-          <IconSymbol name="person.circle" size={28} color={Colors[colorScheme ?? 'light'].icon} />
+          <IconSymbol name="cart" size={28} color={Colors[colorScheme].icon} />
+          <Pressable onPress={() => router.push('/profile')}>
+            <IconSymbol name="person.circle" size={28} color={Colors[colorScheme].icon} />
+          </Pressable>
         </View>
       </View>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-          tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].icon,
+          tabBarActiveTintColor: Colors[colorScheme].iconSelected,
+          tabBarInactiveTintColor: Colors[colorScheme].icon,
           headerShown: false,
           tabBarShowLabel: false,
           tabBarStyle: {
             position: 'absolute',
             bottom: 30,
-            backgroundColor: 'black',
+            backgroundColor: Colors[colorScheme].nav,
             borderRadius: 40,
             height: 60,
             paddingHorizontal: 30,
@@ -63,6 +66,9 @@ export default function TabLayout() {
             shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 0.3,
             shadowRadius: 10,
+            borderTopWidth: 0,
+            elevation: 0,
+            borderTopColor: 'transparent',
           },
         }}>
         <Tabs.Screen

@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Animated, Modal, Pressable, TextInput, View } from 'react-native';
 import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useThemeContext } from '@/context/ThemeProvider';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useGlobalStyles } from '@/constants/globalStyles';
 
 export function SearchModal({ visible, onClose }) {
-    const colorScheme = useColorScheme();
+    const { theme: colorScheme } = useThemeContext();
     const globalStyles = useGlobalStyles();
     const [searchText, setSearchText] = useState('');
     const animatedMargin = useRef(new Animated.Value(0)).current;
@@ -27,15 +27,15 @@ export function SearchModal({ visible, onClose }) {
             onRequestClose={onClose}
         >
             <Pressable style={globalStyles.overlay} onPress={onClose}>
-                <IconSymbol name="circle.fill" size={40} color={Colors[colorScheme ?? 'light'].text} style={{ position: 'absolute', top: 60, right: 20, zIndex: 10 }} />
+                <IconSymbol name="circle.fill" size={40} color={Colors[colorScheme].text} style={{ position: 'absolute', top: 60, right: 20, zIndex: 10 }} />
                 <Pressable onPress={onClose} style={{ position: 'absolute', top: 60, right: 20, zIndex: 10 }}>
-                    <IconSymbol name="xmark.circle.fill" size={40} color={Colors[colorScheme ?? 'light'].tint} />
+                    <IconSymbol name="xmark.circle.fill" size={40} color={Colors[colorScheme].card} />
                 </Pressable>
-                <Animated.View style={{ width: '90%', transform: [{ translateY: animatedMargin }] }}>
+                <Animated.View style={{ width: '95%', transform: [{ translateY: animatedMargin }] }}>
                     <TextInput
                         placeholder="Search Here..."
                         style={globalStyles.inputTextBox}
-                        placeholderTextColor={Colors[colorScheme ?? 'light'].text}
+                        placeholderTextColor={Colors[colorScheme].text}
                         value={searchText}
                         onChangeText={setSearchText}
                     />

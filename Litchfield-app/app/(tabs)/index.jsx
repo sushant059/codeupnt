@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { useGlobalStyles } from '@/constants/globalStyles';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useThemeContext } from '@/context/ThemeProvider';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
   const [showModal, setShowModal] = useState(false);
-  const colorScheme = useColorScheme();
+  const { theme: colorScheme } = useThemeContext();
   const globalStyles = useGlobalStyles();
 
   return (
@@ -46,10 +46,10 @@ export default function HomeScreen() {
       <Pressable onPress={() => setShowModal(true)}>
         <ThemedView style={globalStyles.buttonCard}>
           <ThemedView style={globalStyles.buttonLeft}>
-            <IconSymbol name="info.circle" color={Colors[colorScheme ?? 'light'].text} />
+            <IconSymbol name="info.circle" color={Colors[colorScheme].text} />
             <ThemedText type="subtitle">Quick Information</ThemedText>
           </ThemedView>
-          <IconSymbol name="chevron.right" size={28} color={Colors[colorScheme ?? 'light'].text} />
+          <IconSymbol name="chevron.right" size={28} color={Colors[colorScheme].text} />
         </ThemedView>
       </Pressable>
 
@@ -60,13 +60,13 @@ export default function HomeScreen() {
         onRequestClose={() => setShowModal(false)}
       >
         <Pressable style={globalStyles.overlay} onPress={() => setShowModal(false)}>
-          <IconSymbol name="circle.fill" size={40} color={Colors[colorScheme ?? 'light'].text} style={{ position: 'absolute', top: 60, right: 20, zIndex: 10 }} />
+          <IconSymbol name="circle.fill" size={40} color={Colors[colorScheme].text} style={{ position: 'absolute', top: 60, right: 20, zIndex: 10 }} />
           <Pressable onPress={() => setShowModal(false)} style={{ position: 'absolute', top: 60, right: 20, zIndex: 10 }}>
-            <IconSymbol name="xmark.circle.fill" size={40} color={Colors[colorScheme ?? 'light'].tint} />
+            <IconSymbol name="xmark.circle.fill" size={40} color={Colors[colorScheme].card} />
           </Pressable>
           <View style={globalStyles.overlayContent}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-              <IconSymbol name="exclamationmark.triangle" size={28} color={Colors[colorScheme ?? 'light'].text} />
+              <IconSymbol name="exclamationmark.triangle" size={28} color={Colors[colorScheme].text} />
               <ThemedText type="subtitle">Heat warning</ThemedText>
             </View>
             <ThemedText style={{ marginTop: 10 }}>
