@@ -1,10 +1,11 @@
 import { Tabs, usePathname } from 'expo-router';
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, Pressable } from 'react-native';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useFonts } from 'expo-font';
+import { SearchModal } from '@/components/search';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -21,12 +22,14 @@ export default function TabLayout() {
     'Lobster-Regular': require('@/assets/fonts/Lobster-Regular.ttf'),
   });
 
+  const [showSearch, setShowSearch] = useState(false);
+
   if (!fontsLoaded) {
     return <View style={{ flex: 1, backgroundColor: 'black' }} />;
   }
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <View style={{ position: 'absolute', top: 70, left: 30, right: 30, flexDirection: 'row', alignItems: 'center', zIndex: 100 }}>
         <Text style={{
           fontSize: 38,
@@ -34,7 +37,9 @@ export default function TabLayout() {
           color: Colors[colorScheme ?? 'light'].text,
         }}>{pageTitle}</Text>
         <View style={{ flexDirection: 'row', marginLeft: 'auto', gap: 10 }}>
-          <IconSymbol name="magnifyingglass" size={28} color={Colors[colorScheme ?? 'light'].icon} />
+          <Pressable onPress={() => setShowSearch(true)}>
+            <IconSymbol name="magnifyingglass" size={28} color={Colors[colorScheme ?? 'light'].icon} />
+          </Pressable>
           <IconSymbol name="cart" size={28} color={Colors[colorScheme ?? 'light'].icon} />
           <IconSymbol name="person.circle" size={28} color={Colors[colorScheme ?? 'light'].icon} />
         </View>
@@ -85,6 +90,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </>
+      <SearchModal visible={showSearch} onClose={() => setShowSearch(false)} />
+    </View>
   );
 }

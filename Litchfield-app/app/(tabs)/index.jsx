@@ -1,6 +1,6 @@
 import { Modal, Pressable, View, Image, ScrollView, Dimensions } from 'react-native';
 import { useState } from 'react';
-import { globalStyles } from '@/constants/globalStyles';
+import { useGlobalStyles } from '@/constants/globalStyles';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -10,6 +10,8 @@ import { ThemedView } from '@/components/ThemedView';
 export default function HomeScreen() {
   const [showModal, setShowModal] = useState(false);
   const colorScheme = useColorScheme();
+  const globalStyles = useGlobalStyles();
+
   return (
     <ThemedView style={globalStyles.container}>
       <View style={globalStyles.heroImage}>
