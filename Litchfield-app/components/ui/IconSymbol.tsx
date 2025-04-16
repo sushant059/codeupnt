@@ -25,7 +25,7 @@ export type IconSymbolName = keyof typeof MAPPING;
 
 export function IconSymbol({
   name,
-  size = 36,
+  size = 32,
   color,
   style,
   weight,

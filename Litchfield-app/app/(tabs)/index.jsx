@@ -1,118 +1,81 @@
-import { Image, StyleSheet } from 'react-native';
-
+import { Modal, Pressable, View, Image, ScrollView, Dimensions } from 'react-native';
+import { useState } from 'react';
+import { globalStyles } from '@/constants/globalStyles';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
+  const [showModal, setShowModal] = useState(false);
+  const colorScheme = useColorScheme();
   return (
-    <ThemedView style={{ flex: 1 }}>
-      <ThemedView style={{ height: 130 }} />
-      <Image
-        source={require('@/assets/images/hero.jpg')}
-        style={styles.heroImage}
-        resizeMode="cover"
-      />
+    <ThemedView style={globalStyles.container}>
+      <View style={globalStyles.heroImage}>
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={true}
+          style={{ flex: 1 }}
+        >
+          <Image
+            source={require('@/assets/images/home1.jpg')}
+            resizeMode="cover"
+            style={{ width: Dimensions.get('window').width * 0.9, height: '100%' }}
+          />
+          <Image
+            source={require('@/assets/images/home2.jpg')}
+            resizeMode="cover"
+            style={{ width: Dimensions.get('window').width * 0.9, height: '100%' }}
+          />
+          <Image
+            source={require('@/assets/images/home3.jpg')}
+            resizeMode="cover"
+            style={{ width: Dimensions.get('window').width * 0.9, height: '100%' }}
+          />
+        </ScrollView>
+      </View>
 
-      <ThemedView style={styles.titleBlock}>
+      <ThemedView style={globalStyles.titleBlock}>
         <ThemedText type="title">Welcome to Litchfield!</ThemedText>
       </ThemedView>
 
-      <ThemedView style={styles.infoCard}>
-        <ThemedView style={styles.infoLeft}>
-          <ThemedText style={styles.infoIcon}>ℹ️</ThemedText>
-          <ThemedText>Quick Information</ThemedText>
+      <Pressable onPress={() => setShowModal(true)}>
+        <ThemedView style={globalStyles.buttonCard}>
+          <ThemedView style={globalStyles.buttonLeft}>
+            <IconSymbol name="info.circle" color={Colors[colorScheme ?? 'light'].text} />
+            <ThemedText type="subtitle">Quick Information</ThemedText>
+          </ThemedView>
+          <IconSymbol name="chevron.right" size={28} color={Colors[colorScheme ?? 'light'].text} />
         </ThemedView>
-        <ThemedText style={styles.infoArrow}>❯</ThemedText>
-      </ThemedView>
+      </Pressable>
+
+      <Modal
+        visible={showModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowModal(false)}
+      >
+        <Pressable style={globalStyles.overlay} onPress={() => setShowModal(false)}>
+          <IconSymbol name="circle.fill" size={40} color={Colors[colorScheme ?? 'light'].text} style={{ position: 'absolute', top: 60, right: 20, zIndex: 10 }} />
+          <Pressable onPress={() => setShowModal(false)} style={{ position: 'absolute', top: 60, right: 20, zIndex: 10 }}>
+            <IconSymbol name="xmark.circle.fill" size={40} color={Colors[colorScheme ?? 'light'].tint} />
+          </Pressable>
+          <View style={globalStyles.overlayContent}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              <IconSymbol name="exclamationmark.triangle" size={28} color={Colors[colorScheme ?? 'light'].text} />
+              <ThemedText type="subtitle">Heat warning</ThemedText>
+            </View>
+            <ThemedText style={{ marginTop: 10 }}>
+              Temperatures across the Northern Territory can be very hot between October and April, it can exceed 40 degrees Celsius.
+              Check for active heatwave warnings before you visit, go to the Bureau of Meteorology website.
+              Central Australia has dry heat, and the Top End is humid. Both can cause exhaustion and dehydration.
+              Find out how to prepare and stay safe in the heat.
+            </ThemedText>
+          </View>
+        </Pressable>
+      </Modal>
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'flex-start',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
-  },
-  logoText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    gap: 12,
-    alignItems: 'center',
-  },
-  icon: {
-    width: 20,
-    height: 20,
-  },
-  avatar: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-  },
-  heroImage: {
-    width: '90%',
-    height: 180,
-    borderRadius: 16,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  titleBlock: {
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  infoCard: {
-    backgroundColor: '#f1f1f1',
-    borderRadius: 12,
-    padding: 16,
-    marginHorizontal: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  infoLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f1f1f1',
-    gap: 8,
-  },
-  infoIcon: {
-    fontSize: 20,
-  },
-  infoArrow: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  footer: {
-    marginTop: 'auto',
-    paddingVertical: 20,
-    alignItems: 'center',
-  },
-});

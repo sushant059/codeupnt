@@ -1,4 +1,4 @@
-import { Tabs, useRouter, usePathname } from 'expo-router';
+import { Tabs, usePathname } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { IconSymbol } from '@/components/ui/IconSymbol';
@@ -29,7 +29,7 @@ export default function TabLayout() {
     <>
       <View style={{ position: 'absolute', top: 70, left: 30, right: 30, flexDirection: 'row', alignItems: 'center', zIndex: 100 }}>
         <Text style={{
-          fontSize: 34,
+          fontSize: 38,
           fontFamily: 'Lobster-Regular',
           color: Colors[colorScheme ?? 'light'].text,
         }}>{pageTitle}</Text>
@@ -42,6 +42,7 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].icon,
           headerShown: false,
           tabBarShowLabel: false,
           tabBarStyle: {
@@ -54,7 +55,7 @@ export default function TabLayout() {
             marginHorizontal: 30,
             alignSelf: 'center',
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
+            shadowOffset: { width: 0, height: 5 },
             shadowOpacity: 0.3,
             shadowRadius: 10,
           },
